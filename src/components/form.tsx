@@ -5,8 +5,19 @@ import InputBox, { InputProps } from "./input";
 import Button, { ButtonProps } from "./button";
 
 interface FormProps<T> {
+    /** 
+     *  The initial state of the form.
+     *  This is used to display error messages.
+     * */ 
     initialState: T;
+    
+    /**
+     * The action to be performed on submit of the form.
+     */ 
     action: (formData: FormData) => Promise<any>;
+    /**
+     * Callback function that is called after the form is submitted
+     */ 
     onSubmit?: (data: any) => void;
     className?: string;
     children: React.ReactElement[];

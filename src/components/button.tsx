@@ -1,3 +1,4 @@
+"use client";
 import { BounceLoader } from "react-spinners";
 
 export interface ButtonProps {
