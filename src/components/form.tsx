@@ -28,10 +28,7 @@ const Form = <T,>({
 
         startTransition(async () => {
             const { error } = await action(formData);
-            console.log(error);
-            if (error) {
-                setError(error);
-            }
+            setError(error);
         });
 
         if (onSubmit) {
