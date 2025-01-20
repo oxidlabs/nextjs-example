@@ -1,6 +1,5 @@
 "use server";
 
-import { InputData } from "./page";
 import { z } from "zod";
 
 const inputSchema = z.object({
