@@ -1,45 +1,47 @@
 "use client";
-import { useState } from "react";
 
+// Define a proper type for the state object
 interface State {
-  [key: string]: string;
+    [key: string]: string[];
 }
 
 export interface InputProps {
     label: string;
-    /**
-     * The value of the input field.
-     */
     value?: string;
-    /**
-     * The placeholder text for the input field.
-     */
     placeholder?: string;
-    /**
-     * The type of the input field (e.g. text, password, email, etc.).
-     */
     inputType?: string;
     required?: boolean;
-    state?: any;/* State; */
+    state?: State;
 }
 
-export default function InputBox({ label, value, placeholder, inputType, required, state}: InputProps) {
-    /* const [inputState, setInputState] = useState(""); */
+export default function InputBox({
+    label,
+    value,
+    placeholder,
+    inputType = "text",
+    required,
+    state,
+}: InputProps) {
+    // Use const for immutable values
+    const hasError = state && state[label];
+    const errorMessage = hasError ? state[label][0] : null;
     return (
         <div className="mb-4">
             <input
                 name={label}
-                type={inputType || "text"}
-                value={value}
+                type={inputType}
+                defaultValue={value}
                 placeholder={placeholder}
                 required={required}
-                //onChange={e => setInputState(e.target.value)}
-                className={`block p-2 text-sm text-gray-700 border border-gray-200 rounded-md focus:outline-none focus:ring-gray-500 focus:border-gray-500 w-full ${
-                    state && state[label] ? "border-red-500" : ""
-                }`}
+                aria-invalid={hasError ? "true" : "false"}
+                className={`block p-2 text-sm text-gray-700 border ${
+                    hasError ? "border-red-500" : "border-gray-200"
+                } rounded-md focus:outline-none focus:ring-gray-500 focus:border-gray-500 w-full`}
             />
-            {state && state[label] && (
-                <p className="mt-2 text-sm text-red-600">{state && state[label]}</p>
+            {hasError && (
+                <p className="mt-2 text-sm text-red-600" role="alert">
+                    {errorMessage}
+                </p>
             )}
         </div>
     );
